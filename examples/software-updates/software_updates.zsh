@@ -10,7 +10,7 @@ status_init() {
 	elif [[ "$update_count" -lt 30 ]]; then
 		echo '{PlasmoidIconStart}update-medium{PlasmoidIconEnd}'
 		echo '{PlasmoidStatusStart}active{PlasmoidStatusEnd}'
-	elif [[ "$update_count" -ge 30 ]]; then
+	elif [[ "$update_count" -gt 29 ]]; then
 		echo '{PlasmoidIconStart}update-high{PlasmoidIconEnd}'
 		echo '{PlasmoidStatusStart}active{PlasmoidStatusEnd}'
 	else
@@ -83,7 +83,7 @@ view_list() {
 			--icon "system-software-update" \
 			--textbox "$update_list" \
 			--geometry "430x600+1265+25"
-	elif [[ "$update_count" -ge 20 ]]; then
+	elif [[ "$update_count" -gt 19 ]]; then
 		kdialog --title "${update_count} Packages Upgradable" \
 			--icon "system-software-update" \
 			--textbox "$update_list" \
