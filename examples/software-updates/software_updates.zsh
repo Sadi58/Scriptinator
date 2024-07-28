@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 
 status_init() {
-	status_list
 	if [[ "$update_count" -eq 0 ]]; then
 		echo '{PlasmoidIconStart}update-none{PlasmoidIconEnd}'
 		echo '{PlasmoidStatusStart}passive{PlasmoidStatusEnd}'
@@ -34,28 +33,14 @@ status_list() {
 			echo "* $package_name: [No Description]" >> "$update_list"
 		fi
 	done < "$update_lst"
+	sed -i 's/&/&amp;/g' "$update_list"
 }
 
 status_periodic() {
 	echo $my_password | sudo -S apt update
 	sleep2
 	status_list
-	if [[ "$update_count" -eq 0 ]]; then
-		echo '{PlasmoidIconStart}update-none{PlasmoidIconEnd}'
-		echo '{PlasmoidStatusStart}passive{PlasmoidStatusEnd}'
-	elif [[ "$update_count" -lt 10 ]]; then
-		echo '{PlasmoidIconStart}update-low{PlasmoidIconEnd}'
-		echo '{PlasmoidStatusStart}active{PlasmoidStatusEnd}'
-	elif [[ "$update_count" -lt 30 ]]; then
-		echo '{PlasmoidIconStart}update-medium{PlasmoidIconEnd}'
-		echo '{PlasmoidStatusStart}active{PlasmoidStatusEnd}'
-	elif [[ "$update_count" -gt 29 ]]; then
-		echo '{PlasmoidIconStart}update-high{PlasmoidIconEnd}'
-		echo '{PlasmoidStatusStart}active{PlasmoidStatusEnd}'
-	else
-		echo '{PlasmoidIconStart}question{PlasmoidIconEnd}'
-		echo '{PlasmoidStatusStart}active{PlasmoidStatusEnd}'
-	fi
+	status_init
 }
 
 view_count() {
@@ -110,41 +95,44 @@ updater_main() {
 	if [[ "$update_count" -eq 0 ]]; then
 		kdialog --icon "update-none" --title "Software Updates" --passivepopup "<big><b>System is up to date\!</b></big>"
 	elif [[ "$update_count" -eq 1 ]]; then
-		yad --form --columns=2 --title "Software Updates" --text="\nWould you like to perform the <b>software update below</b>,\nusing <b>one of the following applications</b>\?\n____________________________________________________________\n\n<i>${update_list}</i>\n" --image "update-low" --image-on-top \
-			--field="<b>Discover</b>!system-software-update!Perform system software updates offline :fbtn" updater_discover \
-			--field="<b>Konsole</b>!akonadiconsole!Perform software updates in terminal :fbtn" updater_konsole \
-			--field="<b>Apper</b>!svn-update!Launch package manager :fbtn" updater_apper \
+		local update_list="$(cat "$update_list")"
+		yad --form --columns=2 --title "Software Updates" --text="\nWould you like to perform the <b>software update below</b>,\nusing <b>one of the following applications</b>\?\n____________________________________________________________\n\n<i>$update_list</i>\n" --image "update-low" --image-on-top \
+			--field="<b>Discover</b>!system-software-update!Perform system software updates offline :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh updater_discover" \
+			--field="<b>Konsole</b>!akonadiconsole!Perform software updates in terminal :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh updater_konsole" \
+			--field="<b>Apper</b>!svn-update!Launch package manager :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh updater_apper" \
 			--button="Close!dialog-ok" \
 			--geometry="430x100+1265+25"
-	elif [[ "$update_count" -le 5 ]]; then
-		yad --form --columns=2 --title "Software Updates" --text="\nWould you like to perform the <b>${update_count} software updates</b> below,\nusing <b>one of the following applications</b>\?\n____________________________________________________________\n<i>${update_list}</i>" --image "update-low" --image-on-top \
-			--field="<b>Discover</b>!system-software-update!Perform system software updates offline :fbtn" updater_discover \
-			--field="<b>Konsole</b>!akonadiconsole!Perform software updates in terminal :fbtn" updater_konsole \
-			--field="<b>Apper</b>!svn-update!Launch package manager :fbtn" updater_apper \
+	elif [[ "$update_count" -lt 5 ]]; then
+		local update_list="$(cat "$update_list")"
+		yad --form --columns=2 --title "Software Updates" --text="\nWould you like to perform the <b>${update_count} software updates</b> below,\nusing <b>one of the following applications</b>\?\n____________________________________________________________\n<i>$update_list</i>" --image "update-low" --image-on-top \
+			--field="<b>Discover</b>!system-software-update!Perform system software updates offline :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh updater_discover" \
+			--field="<b>Konsole</b>!akonadiconsole!Perform software updates in terminal :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh updater_konsole" \
+			--field="<b>Apper</b>!svn-update!Launch package manager :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh updater_apper" \
 			--button="Close!dialog-ok" \
 			--geometry="430x250+1265+25"
-	elif [[ "$update_count" -le 15 ]]; then
-		yad --form --columns=2 --title "Software Updates" --text="\nWould you like to perform the <b>${update_count} software updates</b> below,\nusing <b>one of the following applications</b>\?\n____________________________________________________________\n<i>${update_list}</i>" --image "update-medium" --image-on-top \
-			--field="<b>Apper</b>!svn-update!Launch package manager :fbtn" updater_apper \
-			--field="<b>Discover</b>!system-software-update!Perform system software updates offline :fbtn" updater_discover \
-			--field="<b>Konsole</b>!akonadiconsole!Perform software updates in terminal :fbtn" updater_konsole \
+	elif [[ "$update_count" -lt 15 ]]; then
+		local update_list="$(cat "$update_list")"
+		yad --form --columns=2 --title "Software Updates" --text="\nWould you like to perform the <b>${update_count} software updates</b> below,\nusing <b>one of the following applications</b>\?\n____________________________________________________________\n<i>$update_list</i>" --image "update-medium" --image-on-top \
+			--field="<b>Apper</b>!svn-update!Launch package manager :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh updater_apper" \
+			--field="<b>Discover</b>!system-software-update!Perform system software updates offline :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh updater_discover" \
+			--field="<b>Konsole</b>!akonadiconsole!Perform software updates in terminal :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh updater_konsole" \
 			--button="Close!dialog-ok" \
 			--geometry="430x450+1265+25"
 	elif [[ "$update_count" -lt 20 ]]; then
-		yad --form --columns=2 --title "Software Updates" --text="\nWould you like to perform the <b>${update_count} software updates</b> below,\nusing <b>one of the following applications</b>\?\n____________________________________________________________\n<i>${update_list}</i>" --image "update-medium" --image-on-top \
-			--field="<b>View List</b>!format-list-unordered!Display a full list of pending updates :fbtn" view_list \
-			--field="<b>Apper</b>!svn-update!Launch package manager :fbtn" updater_apper \
-			--field="<b>Discover</b>!system-software-update!Perform system software updates offline :fbtn" updater_discover \
-			--field="<b>Konsole</b>!akonadiconsole!Perform software updates in terminal :fbtn" updater_konsole \
+		local update_list="$(cat "$update_list")"
+		yad --form --columns=2 --title "Software Updates" --text="\nWould you like to perform the <b>${update_count} software updates</b> below,\nusing <b>one of the following applications</b>\?\n____________________________________________________________\n<i>$update_list</i>" --image "update-medium" --image-on-top \
+			--field="<b>Apper</b>!svn-update!Launch package manager :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh updater_apper" \
+			--field="<b>Discover</b>!system-software-update!Perform system software updates offline :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh updater_discover" \
+			--field="<b>Konsole</b>!akonadiconsole!Perform software updates in terminal :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh updater_konsole" \
 			--button="Close!dialog-ok" \
-			--geometry="430x550+1265+25"
-	elif [[ "$update_count" -ge 20 ]]; then
-		local update_list="$(echo "$update_list" | head -n 20)"
-		yad --form --columns=2 --title "Software Updates" --text="\nWould you like to perform the <b>${update_count} software updates</b> available,\nusing <b>one of the following applications</b>\?\n____________________________________________________________\n<i>${update_list}</i>\n<b>.........</b>" --image "update-high" --image-on-top \
-			--field="<b>View List</b>!format-list-unordered!Display a full list of pending updates :fbtn" view_list \
-			--field="<b>Apper</b>!svn-update!Launch package manager :fbtn" updater_apper \
-			--field="<b>Discover</b>!system-software-update!Perform system software updates offline :fbtn" updater_discover \
-			--field="<b>Konsole</b>!akonadiconsole!Perform software updates in terminal :fbtn" updater_konsole \
+			--geometry="430x600+1265+25"
+	elif [[ "$update_count" -gt 19 ]]; then
+		local update_list="$(cat "$update_list" | head -n 29)"
+		yad --form --columns=2 --title "Software Updates" --text="\nWould you like to perform the <b>${update_count} software updates</b> available,\nusing <b>one of the following applications</b>\?\n____________________________________________________________\n<i>$update_list</i>\n<b>.........</b>" --image "update-high" --image-on-top \
+			--field="<b>View List</b>!format-list-unordered!Display a full list of pending updates :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh view_list" \
+			--field="<b>Apper</b>!svn-update!Launch package manager :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh updater_apper" \
+			--field="<b>Discover</b>!system-software-update!Perform system software updates offline :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh updater_discover" \
+			--field="<b>Konsole</b>!akonadiconsole!Perform software updates in terminal :fbtn" "$HOME/.local/bin/scriptinator_software-updates.zsh updater_konsole" \
 			--button="Close!dialog-ok" \
 			--geometry="430x750+1265+25"
 	fi
@@ -152,8 +140,9 @@ updater_main() {
 
 updater_discover() {
 	plasma-discover --mode update
-	status_init
 }
+
+
 
 updater_apper() {
 	sudo_password="$(kdialog --title "Authentication Required" --password "<b><big>Apper Package Manager</big></b><br><br>An application is attempting to perform an action that requires admin privileges. Authentication is required to perform this action." -- : 2>/dev/null)"
@@ -168,7 +157,7 @@ updater_apper() {
 }
 
 updater_konsole() {
-	konsole -e "bash -c 'sudo apt full-upgrade; $SHELL'" > /dev/null 2>&1
+	sudo konsole -e "zsh -c 'apt full-upgrade; $SHELL'" > /dev/null 2>&1
 	status_init
 }
 
@@ -183,10 +172,10 @@ main() {
 	shift
 
 	if typeset -f "$func_name" > /dev/null; then
-		local update_lst="$HOME/.local/share/plasmoid-scriptinator-software-updates-list.txt"
-		local update_list="$HOME/.local/share/plasmoid-scriptinator-software-updates-list-detailed.txt"
-		local update_count="$(cat "$update_lst" | wc -l)"
-		local my_password="$(cat "$HOME/.local/bin/.pwd")"
+		update_lst="$HOME/.local/share/plasmoid-scriptinator-software-updates-list.txt"
+		update_list="$HOME/.local/share/plasmoid-scriptinator-software-updates-list-detailed.txt"
+		update_count="$(cat "$update_lst" | wc -l)"
+		my_password="$(cat "$HOME/.local/bin/.pwd")"
 		"$func_name"
 	else
 		echo "Error: Function '$func_name' not found"
