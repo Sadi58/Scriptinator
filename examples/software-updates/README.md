@@ -6,9 +6,9 @@ This example notifies software updates, just like the Plasma Discover Update Not
 
 1. Install the dependency package YAD and Apper (e.g. `sudo apt install apper yad`).
 2. Install the Scriptinator applet.
-3. Add the Scriptinator applet to your panel, or to system tray (set it as "Shown when relevant").
+3. Add the Scriptinator applet to your panel / system tray (set it as "Shown when relevant").
 4. Right-click the Scriptinator applet and select "Configure".
-5. Configure it as the screenshot below, change paths to where you have the script.
+5. Configure it as the screenshot below, changing path(s) as appropriate.
 
 ![Screenshot](01_configuration-window.jpg)
 
@@ -42,7 +42,7 @@ WheelDown mouse action dislays a popup window showing how many updates are avail
 
 WheelUp mouse action opens a window showing the full list of updates with any available description of the software package.
 
-![Screenshot](05_updater-main-ge20.png)
+![Screenshot](05_updater-main-19.png)
 
 Clicking the system update icon in the tray opens a YAD dialog window, with slightly different layouts depending on the number of updates (1, under 5, under 15, under 20 or 20+), listed with any available description of the software package, followed by options below to view the full list, if there are 20 or more updates; and to perform the update(s) using Discover, Apper or Konsole.
 
