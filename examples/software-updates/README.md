@@ -10,7 +10,7 @@ This example notifies software updates, just like the Plasma Discover Update Not
 4. Right-click the Scriptinator applet and select "Configure".
 5. Configure it as the screenshot below, changing path(s) as appropriate.
 
-![Screenshot](01_configuration-window.jpg)
+![01_configuration-window](https://github.com/user-attachments/assets/51248d3b-d444-4d29-8eee-31bc47d3d336)
 
 ## Usage
 
