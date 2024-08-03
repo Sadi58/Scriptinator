@@ -10,7 +10,7 @@ This example notifies software updates, just like the Plasma Discover Update Not
 4. Right-click the Scriptinator applet and select "Configure".
 5. Configure it as the screenshot below, changing path(s) as appropriate.
 
-![01_configuration-window](https://github.com/user-attachments/assets/51248d3b-d444-4d29-8eee-31bc47d3d336)
+![01_configuration-window](01_configuration-window.jpg)
 
 ## Usage
 
@@ -42,7 +42,7 @@ WheelDown mouse action dislays a popup window showing how many updates are avail
 
 WheelUp mouse action opens a window showing the full list of updates with any available description of the software package.
 
-![05_updater-main-19](https://github.com/user-attachments/assets/99e52f9e-ad13-4ef0-b499-ead89f469e02)
+![05_updater-main-31](05_updater-main-31.png)
 
 Clicking the system update icon in the tray opens a YAD dialog window, with slightly different layouts depending on the number of updates (1, under 5, under 15, under 20 or 20+), listed with any available description of the software package, followed by options below to view the full list, if there are 20 or more updates; and to perform the update(s) using Discover, Apper or Konsole.
 
