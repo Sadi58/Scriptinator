@@ -33,6 +33,10 @@ status_list() {
 			fi
 		done < "$update_lst"
 		sed -i 's/&/&amp;/g' "$update_list"
+	else
+		if [[ -s "$update_list" ]]; then
+		truncate -s 0 "$update_list"
+		fi
 	fi
 }
 
