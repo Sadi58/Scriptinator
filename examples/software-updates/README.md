@@ -33,20 +33,19 @@ The system update icon in the tray has a red dot when there are 30 or more updat
 
 ![03b_notifier-active-high-medium-low](03b_notifier-active-high-medium-low.jpg)
 
-WheelUp/Down mouse action dislays a popup window showing how many updates are available, when the last check was, and how often they are checked.
+WheelUp/Down mouse action dislays a popup window showing how many updates are available, when the last check was, how often they are checked, and when the next check is.
 
 ![04a_notifier-view-count](04a_notifier-view-count.jpg)
 
-Clicking the system update icon in the tray opens a YAD dialog window, with slightly different layouts depending on the number of updates (1, under 5, under 15, under 20 or 20+), listed with any available description of the software package, followed by options below to view the full list, if there are 20 or more updates; and to perform the update(s) using Discover, Apper or Konsole.
+Clicking the system update icon in the tray opens a YAD dialog window, with slightly different layouts depending on the number of updates (1, under 5, under 15, under 20 or 20+), followed by options below to view the full list, if there are 20 or more updates; and to perform the update(s) using Discover, Apper or Konsole. The list of upgradable packages are provided by `apt`, while any additional packages that need to be installed as dependency are provided by `pkcon`, listed under different headings.
 
-![05_updater-main-1-11](05_updater-main-1-11.png)
-![05_updater-main-31](05_updater-main-31.png)
-![05_updater-view-list](05_updater-view-list.jpg)
+![05_menu](05_menu.png)
+![05_menu-view-list](05_menu-view-list.png)
 
 Performing the updates using Discover might be especially preferrable for "offline updates", when important system software packages are downloaded immediately, but installed after rebooting the computer.
 
 ![06a_updater-discover](06a_updater-discover.jpg)
 
-Apper package manager might be preferrable for quick updates that carry no risk when performed immediately without any reboot, such as applications and tools that are not in use or can be closed before the update, and restarted after. Konsole option, on the other hand, simply opens a terminal window, and starts executing the command `sudo apt full-upgrade`, which might be preferred especially by advanced-level users.
+Apper package manager might be preferrable for quick updates that carry no risk when performed immediately without any reboot, such as applications and tools that are not in use or can be closed before the update, and restarted after. Konsole option, on the other hand, simply opens a terminal window, and starts executing the command `pkcon update`, which might be preferred especially by advanced-level users.
 
 ![06b_updater-apper-konsole](06b_updater-apper-konsole.jpg)
