@@ -116,19 +116,16 @@ discover() {
 	"$bin_dir/autostart/logout.zsh"
 	plasma-discover --mode update
 	update
-	"$bin_dir/software-status.zsh"
 }
 
 apper() {
 	apper --updates
 	update
-	"$bin_dir/software-status.zsh"
 }
 
 konsole() {
 	konsole -e "zsh -c 'pkcon update; $SHELL'" > /dev/null 2>&1
 	update
-	"$bin_dir/software-status.zsh"
 }
 
 main "$@"
