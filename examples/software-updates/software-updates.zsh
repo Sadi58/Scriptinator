@@ -2,7 +2,7 @@
 
 main() {
 	if [[ $# -eq 0 ]]; then
-		echo "Usage: main [status|update|view_count|view_list|menu|discover|apper|konsole]"
+		echo "Usage: A function name must be entered after the command."
 		kdialog --title "Software Updates" \
 			--icon "system-software-update" \
 			--passivepopup "A <i>function name</i> must be entered after the command." &
@@ -65,36 +65,10 @@ view_count() {
 }
 
 view_list() {
-	if [[ $update_count -eq 0 ]]; then
-		kdialog --title "Software Updates" \
-			--icon "update-none" \
-			--passivepopup "<big><b>System is up to date!</b></big>"
-	elif [[ $update_count -eq 1 ]]; then
-		kdialog --title "$update_count Package Upgradable" \
-			--icon "system-software-update" \
-			--textbox "$update_list" \
-			--geometry "430x150+1265+25"
-	elif [[ $update_count -le 5 ]]; then
-		kdialog --title "$update_count Packages Upgradable" \
-			--icon "system-software-update" \
-			--textbox "$update_list" \
-			--geometry "430x300+1265+25"
-	elif [[ $update_count -le 15 ]]; then
-		kdialog --title "$update_count Packages Upgradable" \
-			--icon "system-software-update" \
-			--textbox "$update_list" \
-			--geometry "430x500+1265+25"
-	elif [[ $update_count -lt 20 ]]; then
-		kdialog --title "$update_count Packages Upgradable" \
-			--icon "system-software-update" \
-			--textbox "$update_list" \
-			--geometry "430x600+1265+25"
-	elif [[ $update_count -ge 20 ]]; then
-		kdialog --title "$update_count Packages Upgradable" \
-			--icon "system-software-update" \
-			--textbox "$update_list" \
-			--geometry "430x800+1265+25"
-	fi
+	kdialog --title "$update_count Packages Upgradable" \
+		--icon "system-software-update" \
+		--textbox "$update_list" \
+		--geometry "430x800+1265+25"
 }
 
 menu() {
@@ -112,7 +86,7 @@ menu() {
 				--field="<b>Konsole</b>|akonadiconsole|Perform software updates in terminal":FBTN "$bin_dir/software-updates.zsh konsole" \
 				--button="Close|dialog-ok" \
 				--geometry="430+1265+25"
-		elif [[ $update_count -le 20 ]]; then
+		elif [[ $update_count -le 25 ]]; then
 			yad --form --title "Software Updates" \
 				--image "system-software-update" --image-on-top \
 				--columns=2 --separator="|" --item-separator="|" \
@@ -122,8 +96,8 @@ menu() {
 				--field="<b>Konsole</b>|akonadiconsole|Perform software updates in terminal":FBTN "$bin_dir/software-updates.zsh konsole" \
 				--button="Close|dialog-ok" \
 				--geometry="430+1265+25"
-		elif [[ $update_count -gt 20 ]]; then
-			update_details="$(head -n 29 < "$update_list")"
+		elif [[ $update_count -gt 25 ]]; then
+			update_details="$(head -n 25 < "$update_list")"
 			yad --form --title "Software Updates" \
 				--image "system-software-update" --image-on-top \
 				--columns=2 --separator="|" --item-separator="|" \
