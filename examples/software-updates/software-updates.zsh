@@ -103,7 +103,7 @@ menu() {
 				--columns=2 --separator="|" --item-separator="|" \
 				--text="\nWould you like to perform the <b>$update_count software updates</b> available,\nusing <b>one of the following applications</b>\?\n____________________________________________________________\n<i>$update_details</i>\n<b>.........</b>" \
 				--field="<b>View List</b>|format-list-unordered|Display a full list of pending updates":FBTN "$bin_dir/software-updates.zsh view_list" \
-				--field="<b>Discover</b>|system-software-update|Perform system software updates offline":FBTN "$bin_dir/software-updates.zsh discover" \
+				--field="<b>Discover</b>|system-software-update|Perform system software updates offline":FBTN "nohup $bin_dir/software-updates.zsh discover" \
 				--field="<b>Apper</b>|svn-update|Launch package manager":FBTN "$bin_dir/software-updates.zsh apper" \
 				--field="<b>Konsole</b>|akonadiconsole|Perform software updates in terminal":FBTN "$bin_dir/software-updates.zsh konsole" \
 				--button="Close|dialog-ok" \
